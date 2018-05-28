@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import * as APIFUNCS from '../utils/api.js';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';

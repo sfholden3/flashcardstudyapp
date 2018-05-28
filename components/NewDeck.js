@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import PropTypes from 'prop-types';
-import * as APIFUNCS from '../utils/api.js';
 
 class NewDeck extends Component {
   static propTypes = {
@@ -11,9 +10,7 @@ class NewDeck extends Component {
     currentTitle: ''
   };
   submit = () => {
-    Promise.resolve(APIFUNCS.saveDeckTitle(this.state.currentTitle));
-    const decks = Promise.resolve(APIFUNCS.getDecks());
-    console.log(decks);
+    this.props.saveNewDeck(this.state.currentTitle);
   };
   render() {
     return (

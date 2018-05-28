@@ -7,59 +7,57 @@ export const DECK_STORAGE_KEY = 'flashcardstudyapp:deck';
 
 export function getDecks() {
   console.log("you've hit getdecks");
-  return AsyncStorage.getItem(DECK_STORAGE_KEY).then(results => {
-    console.log("youre in the then!")
-    if(results === null){
-      console.log("results are null");
-      return {title: 'no decks set'}
-    }
-    else {
-      console.log("results are not null");
-      const deckObj = JSON.parse(decks);
-      console.log("parsed obj: "+deckObj);
-      return deckObj;
-    }
-  });
+  return AsyncStorage.getItem(DECK_STORAGE_KEY)
+    .then(results => {
+      console.log('youre in the then!');
+      if (results === null) {
+        console.log('results are null');
+        return { title: 'no decks set' };
+      } else {
+        console.log('results are not null');
+        console.log('obj: ' + results);
+        return results;
+      }
+    })
 }
 
 //getDeck: take in a single id argument and return the deck associated with that id.
 
 export function getDeck(deckTitle) {
-  console.log("you've hit getdeck")
-  console.log("deck to get: "+deckTitle)
+  console.log("you've hit getdeck");
+  console.log('deck to get: ' + deckTitle);
   return AsyncStorage.getItem(DECK_STORAGE_KEY).then(results => {
     return results === null
       ? { title: 'no decks' }
-      : JSON.parse(decks)[deckTitle] === null
+      : JSON.parse(results)[deckTitle] === null
         ? { title: 'no deck with that title' }
-        : JSON.parse(decks)[deckTitle];
-  });
+        : JSON.parse(results)[deckTitle];
+  })
 }
 
 //saveDeckTitle: take in a single title argument and add it to the decks.
 
 export function saveDeckTitle(newDeckTitle) {
-  console.log("save deck title! ")
-  console.log("new deck title: "+newDeckTitle);
+  console.log('save deck title! ');
+  console.log('new deck title: ' + newDeckTitle);
   const newDeck = JSON.stringify({
     [newDeckTitle]: {
       title: newDeckTitle,
       questions: []
     }
   });
-  console.log("new deck: "+newDeck)
+  console.log('new deck: ' + newDeck);
   AsyncStorage.getItem(DECK_STORAGE_KEY).then(results => {
-    console.log("we're in the then!")
+    console.log("we're in the then!");
     if (results === null) {
-      console.log("the results are null. setting item to the new deck")
+      console.log('the results are null. setting item to the new deck');
       AsyncStorage.setItem(DECK_STORAGE_KEY, newDeck);
     } else {
-      console.log("results were not null. adding new deck to item")
-      const decks = JSON.parse(decks);
-      console.log("current decks without new item: "+decks)
-      AsyncStorage.setItem(DECK_STORAGE_KEY, (decks += newDeck));
+      console.log('results were not null. adding new deck to item');
+      console.log('current decks without new item: ' + results);
+      AsyncStorage.setItem(DECK_STORAGE_KEY, (results += newDeck)).then(data => data);
     }
-  });
+  })
 }
 
 //addCardToDeck: take in two arguments, title and card, and will add the card to the list of questions for the deck with the associated title.
