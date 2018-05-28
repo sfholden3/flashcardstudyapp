@@ -30,26 +30,21 @@ export default function decks(state = initialDeckState, action) {
       return state;
   }
 }
-
 export function fetchDecks() {
-  console.log("Duck deck fetchdecks");
-  return async dispatch => {
-    console.log("in dispatch")
-    await api.getDecks().then(decks => 
-    dispatch(decksFetched(decks)));
+  return dispatch => {
+    api.getDecks().then(fetchedDecks => 
+    dispatch(decksFetched(fetchedDecks)));
   };
 }
 
-function decksFetched(decks) {
-  console.log("decksFetched" + decks)
-  return { type: FETCH_DECKS, payload: decks };
+function decksFetched(fetchedDecks) {
+  return { type: FETCH_DECKS, payload: fetchedDecks };
 }
 
 export function fetchCurrentDeck(title) {
   console.log(title);
-  return dispatch => {
-    api.getDeck(title).then(currentDeck => 
-    dispatch(currentDeckFetched(currentDeck)));
+  return async dispatch => {
+    await api.getDeck(title).then(currentDeck => dispatch(currentDeckFetched(currentDeck)));
   };
 }
 
@@ -58,10 +53,10 @@ function currentDeckFetched(deck) {
 }
 
 export function saveNewDeck(title) {
-    console.log("ducks/decks savenewtitle")
-  return dispatch => {
-    api.saveDeckTitle(title).then(() =>
-    api.getDecks().then(dispatch(saveNewDecks(newDecks))))
+  console.log('ducks/decks savenewtitle');
+  return async dispatch => {
+    await api.saveDeckTitle(title);
+    await api.getDecks().then(dispatch(saveNewDecks(newDecks)));
   };
 }
 

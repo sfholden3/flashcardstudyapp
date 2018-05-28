@@ -55,15 +55,15 @@ export function saveDeckTitle(newDeckTitle) {
     } else {
       console.log('results were not null. adding new deck to item');
       console.log('current decks without new item: ' + results);
-      AsyncStorage.setItem(DECK_STORAGE_KEY, (results += newDeck)).then(data => data);
+      AsyncStorage.setItem(DECK_STORAGE_KEY, (results += newDeck))
     }
   })
 }
 
 //addCardToDeck: take in two arguments, title and card, and will add the card to the list of questions for the deck with the associated title.
 
-export function addCardToDeck(deckTitle, question) {
-  AsyncStorage.getItem(DECK_STORAGE_KEY).then(results => {
+export async function addCardToDeck(deckTitle, question) {
+  await AsyncStorage.getItem(DECK_STORAGE_KEY).then(results => {
     if (results !== null) {
       const decksObj = JSON.parse(results);
       if (decksObj[deckTitle] != null) {

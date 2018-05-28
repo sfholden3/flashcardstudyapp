@@ -28,9 +28,7 @@ class DeckList extends Component {
     return (
       <View>
         <Text>There are decks</Text>
-        {Object.keys(decks)
-          .map(deck => <Text key={deck}>{deck}</Text>)
-         }       
+        <Text>{decks.toString()}</Text>   
       </View>
     );
   }
